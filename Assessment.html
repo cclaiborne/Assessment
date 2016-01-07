@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <script>
+      // Christopher Claiborne
+      // Disney Technical Assessment
+
+      // 1.
+      // Employee Records: write a function that will take in a JSON
+      // string and return only those records for individuals who are of
+      // age 30 or older.
+      // Sample data
+
+      var data = '[{"name":"John Smith","birthdate":"1973-02-18"},{"name":"Martha Washington","birthdate":"1823-07-11"},{"name":"Some Kid","birthdate":"2002-12-02"}]';
+
+      function findByAge(records) {
+        var overThirty = [],
+        obj = JSON.parse(records),
+        date = new Date(),
+        //change date to 30 years ago
+        pastYear = date.getYear() - 30;
+        date.setYear(pastYear);
+        //convert into miliseconds
+        date = Date.parse(date);
+        for (var i = 0; i<obj.length; i++){
+          if (Date.parse(obj[i].birthdate) < date)
+            overThirty.push(obj[i]);
+        }
+        return overThirty;
+      }
+
+      // 2.
+      // Understanding of arguments: write a function “add” that takes n
+      // number of arguments and returns the sum of them all.
+
+      // function add(){
+      //   var sum = 0;
+      //   for (var i = 0; i<arguments.length; i++){
+      //     sum += arguments[i];
+      //   }
+      //   return sum;
+      // }
+
+      // 2b.
+      // As a stretch goal, solve this same question with the
+      // ability to curry:
+      function add() {
+        var sum = 0,
+        wrapper = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            sum += arguments[i];
+          }
+          if (arguments.length)
+            return wrapper;
+          else
+            return sum;
+        };
+        return wrapper.apply(this, Array.prototype.slice.call(arguments));
+      }
+
+      //1.
+      console.log(findByAge(data));
+      //2.
+      //console.log(add(1, 2)); // 3
+      //console.log(add(2, 4, 6, 8)); // 20
+      //2b.
+      console.log('sum: ' + add(1)(2)()); // sum: 3
+      console.log('sum: ' + add(2)(2)(2)(2)()); // sum: 8
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
